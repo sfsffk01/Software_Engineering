@@ -24,29 +24,73 @@ public class UserController {
         model.addAttribute("listUsers", listUsers);
         return "users";
     }
-    @GetMapping("/user_login")
-    public String showUserLoginList(Model model) {
-        return "user_login.html";
-    }
-    @GetMapping("/users/new")
+    @GetMapping("/users/new")//註冊介面
     public String showNewFrom(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("pageTitle", "Add New User");
-        return "user_from";
+        model.addAttribute("pageTitle", "Sign up");
+        return "user_from"; //回到manage user
     }
-    @GetMapping("/users/newLogin")
+    @PostMapping("/user/registerSystem")
+    public String registerUser(User user, RedirectAttributes ra , Model model) {
+        List<User> listUsers = service.listAll();
+        User[] arrayUsers = new User[listUsers.size()];
+        listUsers.toArray(arrayUsers);
+        int flag = 0;
+        userState = "註冊成功!";
+        for(int i=0; i<listUsers.size(); i++) {
+            flag=0;
+            if(user.getUserName().equals(arrayUsers[i].getUserName()))
+            {
+                flag++;
+            }
+            if(flag>=1)
+            {
+                userState = "註冊失敗! 有重複的帳號或使用者名稱!";
+                return "/user_failRegister";
+            }
+        }
+        return "/user_successRegister";
+    }
+
+    @PostMapping("/users/save")
+    public String saveUser(User user, RedirectAttributes ra) {
+
+        ra.addFlashAttribute("message", "The user has been saved successfully.");
+        List<User> listUsers = service.listAll();
+        User[] arrayUsers = new User[listUsers.size()];
+        listUsers.toArray(arrayUsers);
+        int flag = 0;
+        userState = "註冊成功!";
+        for(int i=0; i<listUsers.size(); i++) {
+            flag=0;
+            if(user.getAccountNumber().equals(arrayUsers[i].getAccountNumber()))
+            {
+                flag++;
+            }
+            if(user.getUserName().equals(arrayUsers[i].getUserName()))
+            {
+                flag++;
+            }
+            if(flag>=1)
+            {
+                userState = "註冊失敗! 有重複的帳號!";
+                return "/user_failRegister";
+            }
+        }
+        service.save(user);
+        return "/user_successRegister";
+        //return "redirect:/users";
+    }
+
+    @GetMapping("/users/newLogin")//登入介面
     public String showNewLoginFrom(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("pageTitle", "帳號登入");
         return "user_login";
     }
-
-
-    @PostMapping("/users/save")
-    public String saveUser(User user, RedirectAttributes ra) {
-        service.save(user);
-        ra.addFlashAttribute("message", "The user has been saved successfully.");
-        return "redirect:/users";
+    @GetMapping("/user_login")
+    public String showUserLoginList(Model model) {
+        return "user_login.html";
     }
     @PostMapping("/user/loginSystem")
     public String loginUser(User user, RedirectAttributes ra , Model model) {
@@ -59,13 +103,6 @@ public class UserController {
         model.addAttribute("pageTitle", "Add New User");
         for(int i=0; i<listUsers.size(); i++) {
             flag=0;
-            System.out.println("名稱:" + user.getUserName());
-            System.out.println("比對名稱:" + arrayUsers[i].getUserName());
-            System.out.println("帳號:" + user.getAccountNumber());
-            System.out.println("比對帳號:" + arrayUsers[i].getAccountNumber());
-            System.out.println("密碼:" + user.getPassword());
-            System.out.println("比對密碼:" + arrayUsers[i].getPassword());
-
             if(user.getAccountNumber().equals(arrayUsers[i].getAccountNumber()))
             {
                 flag++;
@@ -84,9 +121,7 @@ public class UserController {
                 return "/user_successLogin";
             }
         }
-        System.out.println("flag:" + flag);
         return "/user_failLogin";
-        //return "redirect:/";
     }
     /**
      * Immplementation of updated and delete
