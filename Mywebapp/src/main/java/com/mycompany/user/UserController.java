@@ -58,9 +58,9 @@ public class UserController {
         List<User> listUsers = service.listAll();
         User[] arrayUsers = new User[listUsers.size()];
         listUsers.toArray(arrayUsers);
-        int flag = 0;
+        //int flag = 0;
         userState = "註冊成功!";
-        for(int i=0; i<listUsers.size(); i++) {
+        /*for(int i=0; i<listUsers.size(); i++) {
             flag=0;
             if(user.getAccountNumber().equals(arrayUsers[i].getAccountNumber()))
             {
@@ -75,10 +75,21 @@ public class UserController {
                 userState = "註冊失敗! 有重複的帳號!";
                 return "/user_failRegister";
             }
-        }
+        }*/
         service.save(user);
         return "/user_successRegister";
         //return "redirect:/users";
+    }
+    @PostMapping("/users/editSave")
+    public String editUser(User user, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "The user has been saved successfully.");
+        List<User> listUsers = service.listAll();
+        User[] arrayUsers = new User[listUsers.size()];
+        listUsers.toArray(arrayUsers);
+        userState = "註冊成功!";
+        service.save(user);
+        //return "/article";
+        return "redirect:/article";
     }
 
     @GetMapping("/users/newLogin")//登入介面
@@ -133,7 +144,7 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
 
-            return "user_from";
+            return "user_edit";
         } catch (UserNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/users";
