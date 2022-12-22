@@ -2,6 +2,7 @@ package com.mycompany.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,7 @@ public class ForumController {
 
     @GetMapping("/article/{id}")
     public String viewArticle(@PathVariable Integer id, Model model) {
-        Article article = articleRepository.getById(Long.valueOf(id));
+        Article article = articleRepository.getById(id);
         model.addAttribute("article", article);
         return "article_view";
     }
@@ -41,15 +42,14 @@ public class ForumController {
     public String createArticle(Article article) {
         article.setPublishedAt(LocalDateTime.now());
         articleRepository.save(article);
-        return "redirect:/article/" + article.getId();
+        return "redirect:/article/";
     }
-    @GetMapping("/article/{id}/edit")
-    public String editArticle(@PathVariable Long id, Model model) {
+    /*@GetMapping("/article/{id}/edit")
+    public String editArticle(@PathVariable Integer id, Model model) {
         Article article = articleRepository.getById(id);
         model.addAttribute("article", article);
         return "article_form";
     }
-
     @PostMapping("/article/{id}/edit")
     public String updateArticle(@PathVariable Integer id, Article article) {
         article.setId(id);
@@ -58,7 +58,7 @@ public class ForumController {
     }
 
     @GetMapping("/article/{id}/delete")
-    public String deleteArticle(@PathVariable Long id) {
+    public String deleteArticle(@PathVariable Integer id) {
         articleRepository.deleteById(id);
         return "redirect:/";
     }
@@ -71,8 +71,8 @@ public class ForumController {
     }
 
     @PostMapping("/article/{id}/reply/new")
-    public String createReply(@PathVariable Long id, Reply reply) {
-        reply.setArticle(articleRepository.getOne(id));
+    public String createReply(@PathVariable Integer id, Reply reply) {
+        reply.setArticle(articleRepository.getById(id));
         reply.setPublishedAt(LocalDateTime.now());
         replyRepository.save(reply);
         return "redirect:/article/" + id;
@@ -97,5 +97,5 @@ public class ForumController {
     public String deleteReply(@PathVariable Long articleId, @PathVariable Long replyId) {
         replyRepository.deleteById(replyId);
         return "redirect:/article/" + articleId;
-    }
+    }*/
 }

@@ -19,9 +19,11 @@ public class UserRepositoryTests {
 
     @Test
     public void testAddNew() {
-        User user = new User();
-
-        user.setUserName("abcjsdksjdk");
+       User user = new User();
+       user.setId(1);
+       user.setUserName("abcjsdksjdk");
+       user.setAccountNumber("abcjsdksjdk");
+       user.setPassword("abcjsdksjdk");
 
        User savedUser = repo.save(user);
        System.out.println(user);
