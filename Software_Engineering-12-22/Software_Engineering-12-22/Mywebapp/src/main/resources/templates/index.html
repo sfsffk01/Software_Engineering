@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to my application</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+
+</head>
+<body>
+<div class="container-fluid text-center">
+    <h1>音遊討論區</h1>
+    <h2><a class="h2" th:href="@{/users/new}">使用者註冊</a></h2>
+    <h2><a class="h2" th:href="@{/users/newLogin}">使用者登入</a></h2>
+<!--    <button onclick="loginForm()" type="button" class="btn btn-secondary m-2">使用者登入</button>-->
+</div>
+
+
+
+<script type="text/javascript">
+    function loginForm() {
+        window.location="[[@{/user_login.html}]]";
+    }
+</script>
+</body>
+</html>
