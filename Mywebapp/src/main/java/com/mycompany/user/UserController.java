@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/users/new")//註冊介面
     public String showNewFrom(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("pageTitle", "Sign up");
+        model.addAttribute("pageTitle", "註冊");
         return "user_from"; //回到manage user
     }
     @PostMapping("/user/registerSystem")
@@ -54,7 +54,6 @@ public class UserController {
 
     @PostMapping("/users/save")
     public String saveUser(User user, RedirectAttributes ra) {
-
         ra.addFlashAttribute("message", "The user has been saved successfully.");
         List<User> listUsers = service.listAll();
         User[] arrayUsers = new User[listUsers.size()];
@@ -93,7 +92,7 @@ public class UserController {
         return "user_login.html";
     }
     @PostMapping("/user/loginSystem")
-    public String loginUser(User user, RedirectAttributes ra , Model model) {
+    public String loginUser(User user, Model model) {
         List<User> listUsers = service.listAll();
         User[] arrayUsers = new User[listUsers.size()];
         listUsers.toArray(arrayUsers);
@@ -118,7 +117,7 @@ public class UserController {
             if(flag>=3)
             {
                 userState = "登入成功!";
-                return "/user_successLogin";
+                return "redirect:/article";
             }
         }
         return "/user_failLogin";

@@ -9,12 +9,9 @@
 <body>
 <div class="container-fluid ">
    <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
-    <form th:action="@{/users/save}" method="post" th:object="${user}"
-    style="max-width: 500px; margin:0 auto;">
+    <form th:action="@{/users/save}" method="post" th:object="${user}" style="max-width: 500px; margin:0 auto;">
         <input type="hidden" th:field="*{id}">
         <div class="border border-secondary rounded p-3">
-
-
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">使用者名稱</label>
                 <div class="col-sm-8">
@@ -41,7 +38,7 @@
 </div>
 <script type="text/javascript">
     function cancelForm() {
-        window.location="[[@{/users}]]";
+        window.location="[[@{/}]]";
     }
 </script>
 </body>

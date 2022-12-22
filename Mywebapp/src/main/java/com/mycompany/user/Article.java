@@ -9,7 +9,6 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String author;
     private String title;
     private String body;
@@ -29,9 +28,7 @@ public class Article {
     public String getTitle() { return title; }
     public String getBody() { return body; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setId(Integer id) { this.id = id; }
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -41,6 +38,5 @@ public class Article {
     public void setBody(String body) {
         this.body = body;
     }
-    // 省略其他屬性和 getter/setter 方法
 }
 
